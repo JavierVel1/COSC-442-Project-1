@@ -32,19 +32,19 @@ public class Player {
             properties.add(cell);
             colorGroups.put(
                     cell.getColorGroup(), 
-                    new Integer(getPropertyNumberForColor(cell.getColorGroup())+1));
+                    getPropertyNumberForColor(cell.getColorGroup())+1);
         }
         if(property instanceof RailRoadCell) {
             railroads.add(property);
             colorGroups.put(
                     RailRoadCell.COLOR_GROUP, 
-                    new Integer(getPropertyNumberForColor(RailRoadCell.COLOR_GROUP)+1));
+                    getPropertyNumberForColor(RailRoadCell.COLOR_GROUP)+1);
         }
         if(property instanceof UtilityCell) {
             utilities.add(property);
             colorGroups.put(
                     UtilityCell.COLOR_GROUP, 
-                    new Integer(getPropertyNumberForColor(UtilityCell.COLOR_GROUP)+1));
+                    getPropertyNumberForColor(UtilityCell.COLOR_GROUP)+1);
         }
         setMoney(getMoney() - amount);
     }
@@ -55,7 +55,7 @@ public class Player {
 
 	public boolean checkProperty(String property) {
 		for(int i=0;i<properties.size();i++) {
-			Cell cell = (Cell)properties.get(i);
+			Cell cell = properties.get(i);
 			if(cell.getName().equals(property)) {
 				return true;
 			}
@@ -76,7 +76,7 @@ public class Player {
 				player.properties.add(cell);
 				colorGroups.put(
 						cell.getColorGroup(), 
-						new Integer(getPropertyNumberForColor(cell.getColorGroup())+1));
+						getPropertyNumberForColor(cell.getColorGroup())+1);
 			}
 		}
 		properties.clear();
@@ -98,9 +98,9 @@ public class Player {
 		ArrayList<String> monopolies = new ArrayList<String>();
 		Enumeration<String> colors = colorGroups.keys();
 		while(colors.hasMoreElements()) {
-			String color = (String)colors.nextElement();
+			String color = colors.nextElement();
             if(!(color.equals(RailRoadCell.COLOR_GROUP)) && !(color.equals(UtilityCell.COLOR_GROUP))) {
-    			Integer num = (Integer)colorGroups.get(color);
+    			Integer num = colorGroups.get(color);
     			GameBoard gameBoard = GameMaster.instance().getGameBoard();
     			if(num.intValue() == gameBoard.getPropertyNumberForColor(color)) {
     				monopolies.add(color);
@@ -129,7 +129,7 @@ public class Player {
 	}
 	
 	public PropertyCell getProperty(int index) {
-		return (PropertyCell)properties.get(index);
+		return properties.get(index);
 	}
 	
 	public int getPropertyNumber() {
@@ -137,7 +137,7 @@ public class Player {
 	}
 
 	private int getPropertyNumberForColor(String name) {
-		Integer number = (Integer)colorGroups.get(name);
+		Integer number = colorGroups.get(name);
 		if(number != null) {
 			return number.intValue();
 		}
