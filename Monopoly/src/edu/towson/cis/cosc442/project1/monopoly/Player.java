@@ -18,7 +18,7 @@ public class Player {
 	private ArrayList<Cell> utilities = new ArrayList<Cell>();
 	
 	/**
-	 * Initializes a Player object setting the initial position to the 'Go' cell and marking the player as not in jail.
+	 * Initializes a new Player positioned at 'Go' with no jail status.
 	 */
 	public Player() {
 		GameBoard gb = GameMaster.instance().getGameBoard();
@@ -29,9 +29,9 @@ public class Player {
 	}
 
     /**
-     * Assigns ownership of the specified property to the player and deducts the purchase amount from the player's money.
-     * @param property The property cell to be bought.
-     * @param amount The purchase price to pay for the property.
+     * Assigns ownership of a property to this player and deducts the purchase amount from their money.
+     * @param property The Cell representing the property to buy.
+     * @param amount The amount of money to pay for the property.
      */
     public void buyProperty(Cell property, int amount) {
         property.setTheOwner(this);
@@ -58,17 +58,17 @@ public class Player {
     }
 	
 	/**
-	 * Determines if the player is eligible to buy houses by checking if the player has any monopolies.
-	 * @return True if the player can buy houses; false otherwise.
+	 * Determines if the player is eligible to purchase houses by checking for ownership of any monopolies.
+	 * @return True if the player owns at least one monopoly; otherwise false.
 	 */
 	public boolean canBuyHouse() {
 		return (getMonopolies().length != 0);
 	}
 
 	/**
-	 * Checks whether the player owns the property with the specified name.
-	 * @param property The name of the property to check ownership for.
-	 * @return True if the player owns the specified property; false otherwise.
+	 * Checks whether the player owns a property with the specified name.
+	 * @param property The name of the property to check for ownership.
+	 * @return True if the player owns the property; otherwise false.
 	 */
 	public boolean checkProperty(String property) {
 		for(int i=0;i<properties.size();i++) {
@@ -82,8 +82,8 @@ public class Player {
 	}
 	
 	/**
-	 * Transfers all player-owned properties to another player or resets ownership if the target player is null.
-	 * @param player The player to receive the properties, or null to release them.
+	 * Transfers all properties owned by this player to another player or frees them if null.
+	 * @param player The player to receive the properties or null to free them.
 	 */
 	public void exchangeProperty(Player player) {
 		for(int i = 0; i < getPropertyNumber(); i++ ) {
@@ -104,8 +104,8 @@ public class Player {
 	}
     
     /**
-     * Returns an array of all properties, including regular properties, railroads, and utilities, owned by the player.
-     * @return An array of all owned property cells.
+     * Retrieves all properties, railroads, and utilities owned by the player as an array.
+     * @return An array of all Cell objects owned by the player.
      */
     public Cell[] getAllProperties() {
         ArrayList<Cell> list = new ArrayList<Cell>();
@@ -116,7 +116,7 @@ public class Player {
     }
 
 	/**
-	 * Retrieves the current amount of money the player has.
+	 * Returns the current amount of money the player has.
 	 * @return The player's current money balance.
 	 */
 	public int getMoney() {
@@ -124,7 +124,7 @@ public class Player {
 	}
 	
 	/**
-	 * Returns an array of color group names for which the player owns all properties, indicating monopolies.
+	 * Returns an array of color groups for which the player owns all properties, indicating monopolies.
 	 * @return An array of monopoly color group names owned by the player.
 	 */
 	public String[] getMonopolies() {
@@ -145,14 +145,14 @@ public class Player {
 
 	/**
 	 * Returns the name of the player.
-	 * @return The player's name as a string.
+	 * @return The player's name.
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
-	 * Allows the player to pay bail and get out of jail, updating bankruptcy status and the game GUI.
+	 * Pays the jail bail and releases the player from jail, resetting properties if bankrupt.
 	 */
 	public void getOutOfJail() {
 		money -= JailCell.BAIL;
@@ -165,34 +165,34 @@ public class Player {
 	}
 
 	/**
-	 * Retrieves the player's current position on the game board.
-	 * @return The current Cell the player is positioned on.
+	 * Returns the Cell representing the player's current position on the board.
+	 * @return The current position Cell of the player.
 	 */
 	public Cell getPosition() {
 		return this.position;
 	}
 	
 	/**
-	 * Returns the property at the specified index in the player's list of owned properties.
+	 * Retrieves the property at the specified index from the player's list of properties.
 	 * @param index The index of the property to retrieve.
-	 * @return The PropertyCell owned by the player at the given index.
+	 * @return The PropertyCell at the specified index.
 	 */
 	public PropertyCell getProperty(int index) {
 		return properties.get(index);
 	}
 	
 	/**
-	 * Returns the number of property cells owned by the player.
-	 * @return The count of owned properties (excluding utilities and railroads).
+	 * Returns the total number of properties owned by the player.
+	 * @return The count of properties owned.
 	 */
 	public int getPropertyNumber() {
 		return properties.size();
 	}
 
 	/**
-	 * Returns the number of properties owned by the player for a given color group.
-	 * @param name The color group name to count properties for.
-	 * @return The count of properties owned in that color group.
+	 * Returns the number of properties owned by the player for a specified color group.
+	 * @param name The color group name.
+	 * @return The number of properties owned in the given color group.
 	 */
 	private int getPropertyNumberForColor(String name) {
 		Integer number = colorGroups.get(name);
@@ -203,16 +203,16 @@ public class Player {
 	}
 
 	/**
-	 * Determines if the player is bankrupt based on their money balance.
-	 * @return True if the player has zero or negative money; false otherwise.
+	 * Determines if the player is bankrupt based on their money being zero or less.
+	 * @return True if the player has no money or less; otherwise false.
 	 */
 	public boolean isBankrupt() {
 		return money <= 0;
 	}
 
 	/**
-	 * Checks if the player is currently in jail.
-	 * @return True if the player is in jail; false otherwise.
+	 * Indicates whether the player is currently in jail.
+	 * @return True if the player is in jail; otherwise false.
 	 */
 	public boolean isInJail() {
 		return inJail;
@@ -235,9 +235,9 @@ public class Player {
 	}
 	
 	/**
-	 * Pays rent to another player, adjusting money balances accordingly and handling bankruptcy if necessary.
-	 * @param owner The player receiving the rent payment.
-	 * @param rentValue The amount of rent to pay.
+	 * Pays rent to another player, transferring the rent amount or all remaining money if insufficient, and updates ownership if bankrupt.
+	 * @param owner The player to pay rent to.
+	 * @param rentValue The rent amount to be paid.
 	 */
 	public void payRentTo(Player owner, int rentValue) {
 		if(money < rentValue) {
@@ -255,7 +255,7 @@ public class Player {
 	}
 	
 	/**
-	 * Purchases the property at the player's current position if it is available.
+	 * Attempts to purchase the current position property if available, applying the appropriate purchase method based on property type.
 	 */
 	public void purchase() {
 		if(getPosition().isAvailable()) {
@@ -277,9 +277,9 @@ public class Player {
 	}
 	
 	/**
-	 * Purchases a specified number of houses in a monopoly if the player has sufficient funds and the maximum house limit is not exceeded.
-	 * @param selectedMonopoly The color group name representing the monopoly.
-	 * @param houses The number of houses to purchase for each property in the monopoly.
+	 * Purchases a specified number of houses for all properties in a selected monopoly if funds are sufficient and house limits are not exceeded.
+	 * @param selectedMonopoly The monopoly color group to buy houses for.
+	 * @param houses The number of houses to purchase per property.
 	 */
 	public void purchaseHouse(String selectedMonopoly, int houses) {
 		GameBoard gb = GameMaster.instance().getGameBoard();
@@ -297,33 +297,33 @@ public class Player {
 	}
 	
 	/**
-	 * Buys the specified property cell for its listed price and assigns it to the player.
-	 * @param cell The property cell to purchase.
+	 * Purchases a given PropertyCell by assigning ownership and deducting the price from the player's money.
+	 * @param cell The PropertyCell to purchase.
 	 */
 	private void purchaseProperty(PropertyCell cell) {
         buyProperty(cell, cell.getPrice());
 	}
 
 	/**
-	 * Buys the specified railroad cell for its listed price and assigns it to the player.
-	 * @param cell The railroad cell to purchase.
+	 * Purchases a given RailRoadCell by assigning ownership and deducting the price from the player's money.
+	 * @param cell The RailRoadCell to purchase.
 	 */
 	private void purchaseRailRoad(RailRoadCell cell) {
 	    buyProperty(cell, cell.getPrice());
 	}
 
 	/**
-	 * Buys the specified utility cell for its listed price and assigns it to the player.
-	 * @param cell The utility cell to purchase.
+	 * Purchases a given UtilityCell by assigning ownership and deducting the price from the player's money.
+	 * @param cell The UtilityCell to purchase.
 	 */
 	private void purchaseUtility(UtilityCell cell) {
 	    buyProperty(cell, cell.getPrice());
 	}
 
     /**
-     * Sells the specified property and increases the player's money by the specified amount.
-     * @param property The property cell to sell.
-     * @param amount The sale price received for the property.
+     * Sells a property owned by the player, removing ownership and adding the sale amount to the player's money.
+     * @param property The Cell property to sell.
+     * @param amount The amount received from selling the property.
      */
     public void sellProperty(Cell property, int amount) {
         property.setTheOwner(null);
@@ -340,47 +340,47 @@ public class Player {
     }
 
 	/**
-	 * Sets the player's jail status to either in jail or not.
-	 * @param inJail True to mark the player as in jail; false otherwise.
+	 * Sets the player's jail status to indicate if they are in jail or not.
+	 * @param inJail True if the player should be marked as in jail; false otherwise.
 	 */
 	public void setInJail(boolean inJail) {
 		this.inJail = inJail;
 	}
 
 	/**
-	 * Sets the player's current amount of money to the specified value.
-	 * @param money The new money amount for the player.
+	 * Sets the player's money to a specified amount.
+	 * @param money The new amount of money for the player.
 	 */
 	public void setMoney(int money) {
 		this.money = money;
 	}
 
 	/**
-	 * Sets the player's name to the specified string.
-	 * @param name The new name for the player.
+	 * Sets the player's name.
+	 * @param name The new name of the player.
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
-	 * Updates the player's current position on the game board.
-	 * @param newPosition The new cell representing the player's position.
+	 * Updates the player's current position on the board.
+	 * @param newPosition The Cell representing the new position.
 	 */
 	public void setPosition(Cell newPosition) {
 		this.position = newPosition;
 	}
 
     /**
-     * Returns the player's name as its string representation.
-     * @return The player's name string.
+     * Returns the string representation of the player, which is their name.
+     * @return The player's name as a string.
      */
     public String toString() {
         return name;
     }
     
     /**
-     * Clears all current property ownership data for the player, including properties, railroads, and utilities.
+     * Clears all properties, railroads, and utilities owned by the player, resetting their ownership lists.
      */
     public void resetProperty() {
     	properties = new ArrayList<PropertyCell>();
