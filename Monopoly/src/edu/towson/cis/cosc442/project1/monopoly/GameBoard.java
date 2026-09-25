@@ -10,11 +10,18 @@ public class GameBoard {
 	//the key of colorGroups is the name of the color group.
 	private Hashtable<String, Integer> colorGroups = new Hashtable<String, Integer>();
 	private ArrayList<Card> communityChestCards = new ArrayList<Card>();
+	/**
+	 * Constructs a new GameBoard and initializes it with the Go cell.
+	 */
 	public GameBoard() {
 		Cell go = new GoCell();
 		addCell(go);
 	}
 
+    /**
+     * Adds a card to the appropriate card collection based on its type.
+     * @param card the Card to be added
+     */
     public void addCard(Card card) {
         if(card.getCardType() == Card.TYPE_CC) {
             communityChestCards.add(card);
@@ -23,10 +30,18 @@ public class GameBoard {
         }
     }
 	
+	/**
+	 * Adds a general Cell to the game board's list of cells.
+	 * @param cell the Cell to add to the board
+	 */
 	public void addCell(Cell cell) {
 		cells.add(cell);
 	}
 	
+	/**
+	 * Adds a PropertyCell to the board and updates the count of properties for its color group.
+	 * @param cell the PropertyCell to add
+	 */
 	public void addCell(PropertyCell cell) {
 		String colorGroup = cell.getColorGroup();
 		int propertyNumber = getPropertyNumberForColor(colorGroup);
@@ -34,6 +49,10 @@ public class GameBoard {
         cells.add(cell);
 	}
 
+    /**
+     * Draws and returns the top card from the Community Chest deck, then re-adds it to the deck.
+     * @return the drawn Community Chest Card
+     */
     public Card drawCCCard() {
         Card card = (Card)communityChestCards.get(0);
         communityChestCards.remove(0);
@@ -41,6 +60,10 @@ public class GameBoard {
         return card;
     }
 
+    /**
+     * Draws and returns the top card from the Chance deck, then re-adds it to the deck.
+     * @return the drawn Chance Card
+     */
     public Card drawChanceCard() {
         Card card = (Card)chanceCards.get(0);
         chanceCards.remove(0);
@@ -48,14 +71,28 @@ public class GameBoard {
         return card;
     }
 
+	/**
+	 * Retrieves the Cell at the specified index on the board.
+	 * @param newIndex the index of the Cell to retrieve
+	 * @return the Cell at the given index
+	 */
 	public Cell getCell(int newIndex) {
 		return (Cell)cells.get(newIndex);
 	}
 	
+	/**
+	 * Returns the total number of cells on the game board.
+	 * @return the count of cells on the board
+	 */
 	public int getCellNumber() {
 		return cells.size();
 	}
 	
+	/**
+	 * Returns an array of PropertyCells that belong to the monopoly of the specified color.
+	 * @param color the color group name to query
+	 * @return an array of PropertyCell objects in the monopoly
+	 */
 	public PropertyCell[] getPropertiesInMonopoly(String color) {
 		PropertyCell[] monopolyCells = 
 			new PropertyCell[getPropertyNumberForColor(color)];
@@ -73,6 +110,11 @@ public class GameBoard {
 		return monopolyCells;
 	}
 	
+	/**
+	 * Returns the number of properties for a given color group on the board.
+	 * @param name the color group name
+	 * @return the count of properties in the color group
+	 */
 	public int getPropertyNumberForColor(String name) {
 		Integer number = (Integer)colorGroups.get(name);
 		if(number != null) {
@@ -81,6 +123,11 @@ public class GameBoard {
 		return 0;
 	}
 
+	/**
+	 * Finds and returns the Cell with the specified name, or null if not found.
+	 * @param string the name of the Cell to find
+	 * @return the matching Cell, or null if none found
+	 */
 	public Cell queryCell(String string) {
 		for(int i = 0; i < cells.size(); i++){
 			Cell temp = (Cell)cells.get(i); 
@@ -91,6 +138,11 @@ public class GameBoard {
 		return null;
 	}
 	
+	/**
+	 * Finds and returns the index of the Cell with the specified name, or -1 if not found.
+	 * @param string the name of the Cell to find
+	 * @return the index of the matched Cell, or -1 if not found
+	 */
 	public int queryCellIndex(String string){
 		for(int i = 0; i < cells.size(); i++){
 			Cell temp = (Cell)cells.get(i); 
@@ -101,6 +153,9 @@ public class GameBoard {
 		return -1;
 	}
 
+    /**
+     * Clears all Community Chest cards from the board's deck.
+     */
     public void removeCards() {
         communityChestCards.clear();
     }
