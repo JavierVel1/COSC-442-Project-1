@@ -6,21 +6,38 @@ public class MoneyCard extends Card {
     
     private String label;
     
+    /**
+     * Constructs a MoneyCard with a label, monetary amount, and card type.
+     * @param label the descriptive label of the card
+     * @param amount the monetary value associated with the card
+     * @param cardType the type identifier of the card
+     */
     public MoneyCard(String label, int amount, int cardType){
         this.label = label;
         this.amount = amount;
         this.cardType = cardType;
     }
 
+    /**
+     * Applies the card's action by adding the card's amount to the current player's money.
+     */
     public void applyAction() {
         Player currentPlayer = GameMaster.instance().getCurrentPlayer();
 		currentPlayer.setMoney(currentPlayer.getMoney() + amount);
     }
 
+    /**
+     * Returns the type identifier of the card.
+     * @return the integer representing the card's type
+     */
     public int getCardType() {
         return cardType;
     }
 
+    /**
+     * Retrieves the label description of the card.
+     * @return the card's label as a String
+     */
     public String getLabel() {
         return label;
     }
